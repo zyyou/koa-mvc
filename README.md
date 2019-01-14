@@ -7,7 +7,7 @@
 ## 启动
 
 ```shell
-git clone git@github.com:zyyou/koamvc.gitv
+git clone git@github.com:zyyou/koamvc.git
 cd koamvc
 npm install
 npm run dev
