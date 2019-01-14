@@ -2,7 +2,7 @@
     "watch": [
         "app.js",
         "routes.js",
-        "config",
+        "config/*.*",
         "controllers",
         "models",
         "middlewares",
