@@ -10,6 +10,7 @@ const logger = require('koa-logger');
 const userAgent = require('koa-useragent');
 
 const hylog = require('./lib/log')('app');
+const controller = require('./lib/controller');
 const routeconfig = require('./routes.js');
 
 
@@ -21,6 +22,9 @@ app.on('error', (err, ctx) => {
 
 // error handler
 onerror(app);
+
+//加载网站配置
+controller.appInfo = require('./config/app.json');
 
 //布局及视图配置
 render(app, {
