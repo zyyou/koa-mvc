@@ -23,9 +23,6 @@ app.on('error', (err, ctx) => {
 // error handler
 onerror(app);
 
-//加载网站配置
-controller.appInfo = require('./config/app.json');
-
 //布局及视图配置
 render(app, {
   //必须设置root目录，否则报错

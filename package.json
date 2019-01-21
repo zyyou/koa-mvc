@@ -1,5 +1,5 @@
 {
-  "name": "koatest",
+  "name": "koamvc",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,6 +7,12 @@
     "dev": "./node_modules/.bin/nodemon bin/www",
     "prd": "pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "config": {
+    "title":"koa mvc",
+    "author": "zyy",
+    "email": "china010n@qq.com",
+    "port": 3001
   },
   "dependencies": {
     "debug": "^2.6.3",
