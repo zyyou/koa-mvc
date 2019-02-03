@@ -7,7 +7,7 @@ controller.init(router, module);
 //index controller中建议只写此action
 controller.viewGET('/', function (ctx) {
   return {
-    title: 'Hello Koa 2! index/index'
+    title: 'Hello Koa 2! index/index' + ctx._appConfig.title
   };
 });
 

@@ -8,12 +8,14 @@ var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
 
+var appInfo = require('../config/appconfig');
+
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || process.env.npm_package_config_port);
-console.log(process.env.npm_package_name, '监听端口', port);
+var port = normalizePort(appInfo.port);
+console.log('监听端口', port);
 // app.set('port', port);
 
 /**

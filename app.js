@@ -34,10 +34,11 @@ render(app, {
 
 // middlewares
 //洋葱模型，第一个use用于全局检查，拦截所有请求，可用于权限校验
-app.use(async (ctx,next)=>{
+app.use(async (ctx, next) => {
   //console.log('is httpsync req:', ctx.req.headers['httpsync'] ? true : false)
+  ctx._appConfig = require('./config/appconfig');
   await next();
-  ctx.res.setHeader('is_koa_mvc_res',true);
+  ctx.res.setHeader('is_koa_mvc_res', true);
 })
 
 //koa中间件
