@@ -1,0 +1,49 @@
+// jwt test REST Client 测试脚本
+
+@hostname = 127.0.0.1
+@port = 3001
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
+
+### 模拟登陆
+# @name login
+POST http://{{host}}/jwttest/login?a=b&b=1 HTTP/1.1
+ Content-Type: {{contentType}}
+
+{
+    "name": "zyy",
+    "password": "abc"
+}
+
+### 模拟获取登陆后数据，不刷新token
+@token = {{login.response.headers.auth_token}}
+POST http://{{host}}/jwttest/getjson/ HTTP/1.1
+Authorization:Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+    "id":123
+}
+
+### 模拟获取登陆后数据，刷新token
+# @name refresh
+@token = {{login.response.headers.auth_token}}
+POST http://{{host}}/jwttest/getjson/ HTTP/1.1
+token-refresh:true
+Authorization:Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+    "id":123
+}
+
+### 模拟获取登陆后数据，使用刷新后token，不刷新token
+@rtoken = {{refresh.response.headers.auth_token}}
+POST http://{{host}}/jwttest/getjson/ HTTP/1.1
+Authorization:Bearer {{rtoken}}
+Content-Type: {{contentType}}
+
+{
+    "id":123
+}

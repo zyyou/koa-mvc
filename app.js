@@ -8,10 +8,14 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const userAgent = require('koa-useragent');
+const koajwt = require('koa-jwt');
 
 const hylog = require('./lib/log')('app');
 const controller = require('./lib/controller');
+const jwtRefresh = require('./lib/middlewares/jwt-refresh');
 const routeconfig = require('./routes.js');
+
+const appConfig = require('./config/appconfig');
 
 
 // 全局异常捕获
@@ -34,12 +38,22 @@ render(app, {
 
 // middlewares
 //洋葱模型，第一个use用于全局检查，拦截所有请求，可用于权限校验
+app.use(koajwt({
+  secret: appConfig.tokenKey
+}).unless({
+  path: [/\/index/,/\/test/,/\/ttt/,/\/jwttest\/login/]  //忽略token验证
+}));
+
+app.use(jwtRefresh);
+
 app.use(async (ctx, next) => {
-  //console.log('is httpsync req:', ctx.req.headers['httpsync'] ? true : false)
-  ctx._appConfig = require('./config/appconfig');
+  //console.log('is httpsync req:', ctx.req.headers['httpsync'] ? true : false);
+  ctx._appConfig = appConfig;
+
   await next();
+  
   ctx.res.setHeader('is_koa_mvc_res', true);
-})
+});
 
 //koa中间件
 //用于输出控制台KOA请求日志，生产环境可注释掉
