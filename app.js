@@ -9,9 +9,11 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const userAgent = require('koa-useragent');
 const koajwt = require('koa-jwt');
+const escapeHtml = require('escape-html');
 
 const hylog = require('./lib/log')('app');
 const controller = require('./lib/controller');
+const message = require('./lib/message');
 const jwtRefresh = require('./lib/middlewares/jwt-refresh');
 const routeconfig = require('./routes.js');
 
@@ -20,12 +22,46 @@ const appConfig = require('./config/appconfig');
 
 // 全局异常捕获
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx);
-  hylog.fError('server error\r\n\terr:' + util.inspect(err) + '\r\n\tctx:' + util.inspect(ctx));
+  //console.error('server error', err);
+  hylog.fError('server error\r\n\terr:' + JSON.stringify(err) + '\r\n\tctx:' + JSON.stringify(ctx));
 });
 
 // error handler
-onerror(app);
+onerror(app, {
+  all: (err, ctx) => {
+    switch (ctx.accepts('json', 'html')) {
+      case 'json':
+        console.log('json  err');
+        ctx.body = JSON.stringify(message(true, err.message, {}, err.status));
+        break;
+      default:
+        console.log('html  err');
+        let template = path.join(__dirname, 'views', 'error.html');
+        template = require('fs').readFileSync(template, 'utf8');
+        let body = template.replace('{{status}}', escapeHtml(err.status))
+          .replace('{{stack}}', escapeHtml(err.stack))
+          .replace('{{message}}', escapeHtml(err.message));
+        ctx.body = body;
+        ctx.type = 'html';
+        break;
+    }
+  }
+});
+
+
+// middlewares
+//洋葱模型，第一个use用于全局检查，拦截所有请求，可用于权限校验，unless按http method、扩展名、路径忽略验证，支持正则
+app.use(koajwt({
+  secret: appConfig.tokenKey
+}).unless({
+  method: [],
+  ext: ['.ico', '.css', '.js', '.png', '.jpg'],
+  path: ['/',
+    /\/index/, /\/test/, /\/ttt/, /\/jwttest\/login/]
+}));
+
+app.use(jwtRefresh);
+
 
 //布局及视图配置
 render(app, {
@@ -36,22 +72,12 @@ render(app, {
   //debug: true
 });
 
-// middlewares
-//洋葱模型，第一个use用于全局检查，拦截所有请求，可用于权限校验
-app.use(koajwt({
-  secret: appConfig.tokenKey
-}).unless({
-  path: [/\/index/,/\/test/,/\/ttt/,/\/jwttest\/login/]  //忽略token验证
-}));
-
-app.use(jwtRefresh);
-
 app.use(async (ctx, next) => {
   //console.log('is httpsync req:', ctx.req.headers['httpsync'] ? true : false);
   ctx._appConfig = appConfig;
 
   await next();
-  
+
   ctx.res.setHeader('is_koa_mvc_res', true);
 });
 
