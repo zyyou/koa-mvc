@@ -5,10 +5,13 @@ const controller = require('../lib/controller');
 controller.init(router, module);
 
 controller.viewGET('/', function (ctx) {
-  console.log('----- test/被执行 ------')
+  console.log('----- test/被执行 ------');
+  var msg = require('../lib/message');
+  var res = msg.build(false,'',{}, msg.code.ok);
+
   return {
     //title: 'test / controller',
-    content: 'test / content    path:' + ctx.querystring
+    content: JSON.stringify(res)
   };
 });
 

@@ -32,7 +32,7 @@ onerror(app, {
     switch (ctx.accepts('json', 'html')) {
       case 'json':
         console.log('json  err');
-        ctx.body = JSON.stringify(message(true, err.message, {}, err.status));
+        ctx.body = JSON.stringify(message.build(true, err.message, {}, err.status));
         break;
       default:
         console.log('html  err');
