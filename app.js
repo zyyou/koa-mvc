@@ -10,12 +10,11 @@ const logger = require('koa-logger');
 const userAgent = require('koa-useragent');
 const koajwt = require('koa-jwt');
 const escapeHtml = require('escape-html');
+const mvcrouter = require('koa-mvcrouter');
 
 const hylog = require('./lib/log')('app');
-const controller = require('./lib/controller');
 const message = require('./lib/message');
 const jwtRefresh = require('./lib/middlewares/jwt-refresh');
-const routeconfig = require('./routes.js');
 
 const appConfig = require('./config/appconfig');
 
@@ -93,6 +92,6 @@ app.use(json());
 app.use(require('koa-static')(__dirname + '/public'));
 
 // 注册路由
-app.use(routeconfig());
+app.use(mvcrouter.load());
 
 module.exports = app;

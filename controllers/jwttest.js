@@ -2,14 +2,14 @@
 const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
+const mvcrouter = require('koa-mvcrouter');
 
-const controller = require('../lib/controller');
 const message = require('../lib/message');
 
-controller.init(router, module);
+mvcrouter.init(router, module);
 
 //模拟登陆
-controller.jsonPOST('/login', function (ctx) {
+mvcrouter.jsonPOST('/login', function (ctx) {
 
     let data = ctx.request.body;
     if (!data.name || !data.password) {
@@ -29,7 +29,7 @@ controller.jsonPOST('/login', function (ctx) {
 });
 
 //测试GET响应JSON
-controller.jsonPOST('/getjson', function (ctx) {
+mvcrouter.jsonPOST('/getjson', function (ctx) {
     var token = ctx.headers['authorization'];
     return {
         title: 'jwt get json',
