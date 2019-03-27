@@ -10,19 +10,19 @@ const logger = require('koa-logger');
 const userAgent = require('koa-useragent');
 const koajwt = require('koa-jwt');
 const escapeHtml = require('escape-html');
+
+const bcklib = require('bcklib');
 const mvcrouter = require('koa-mvcrouter');
 
-const hylog = require('./lib/log')('app');
-const message = require('./lib/message');
 const jwtRefresh = require('./lib/middlewares/jwt-refresh');
 
-const appConfig = require('./config/appconfig');
+const appConfig = bcklib.loadConfig('appconfig.js');
 
 
 // 全局异常捕获
 app.on('error', (err, ctx) => {
   //console.error('server error', err);
-  hylog.fError('server error\r\n\terr:' + JSON.stringify(err) + '\r\n\tctx:' + JSON.stringify(ctx));
+  bcklib.log.fError('server error\r\n\terr:' + JSON.stringify(err) + '\r\n\tctx:' + JSON.stringify(ctx));
 });
 
 // error handler

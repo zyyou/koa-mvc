@@ -1,13 +1,12 @@
 'use strict';
-const router = require('koa-router')();
-const mvcrouter = require('koa-mvcrouter');
 
-mvcrouter.init(router, module);
+const bcklib = require('bcklib');
+const mvcrouter = require('koa-mvcrouter');
+const httpSync = require('https-sync');
 
 mvcrouter.viewGET('/', function (ctx) {
   console.log('----- test/被执行 ------');
-  var msg = require('../lib/message');
-  var res = msg.build(false,'',{}, msg.code.ok);
+  var res = bcklib.retMsg(false,'',{}, bcklib.retCode.ok);
 
   return {
     //title: 'test / controller',
@@ -58,14 +57,12 @@ mvcrouter.jsonDELETE('/rest/:id', async function (ctx) {
 
 //测试RESTful PUT
 mvcrouter.jsonGET('/restput', async function (ctx) {
-  let httpSync = require('../lib/http-sync');
   let res = await httpSync.putJSON('http://localhost:3000/test/rest', { val1: 123, val2: 'test put' });
   return res;
 });
 
 //测试RESTful DELETE
 mvcrouter.jsonGET('/restdel', async function (ctx) {
-  let httpSync = require('../lib/http-sync');
   let res = await httpSync.deleteJSON('http://localhost:3000/test/rest/22', { val1: 222, val2: 'test delete' });
   return res;
 });
@@ -77,7 +74,6 @@ mvcrouter.textGET('/text', function (ctx) {
 
 //测试GET响应JSON 且 远程获取
 mvcrouter.jsonGET('/json', async function (ctx) {
-  let httpSync = require('../lib/http-sync');
   let res = httpSync.postJSON('http://localhost:3001/test/json', { val1: 123, val2: 'abc' });
   return res;
 }, { val: 111, action: 'jsonGet' });
@@ -92,7 +88,6 @@ mvcrouter.jsonPOST('/json', function (ctx) {
 
 //测试响应文本且远程获取
 mvcrouter.textGET('/req', async function (ctx) {
-  let httpSync = require('../lib/http-sync');
   let url = 'https://www.baidu.com';
   let res = await httpSync.get(url);
   return JSON.stringify(res);
@@ -100,11 +95,10 @@ mvcrouter.textGET('/req', async function (ctx) {
 
 //测试写日志
 mvcrouter.textGET('/log/:text', async function (ctx) {
-  let log = require('../lib/log')('test');
-  log.cDebug(ctx.params, Math.random(), 123, 'ddd');
-  log.fDebug(ctx.params);
+  bcklib.log.cDebug(ctx.params, Math.random(), 123, 'ddd');
+  bcklib.log.fDebug(ctx.params);
   return 'ok';
 });
 
 
-module.exports = router;
+module.exports = mvcrouter;

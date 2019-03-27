@@ -1,8 +1,5 @@
 'use strict';
-const router = require('koa-router')();
 const mvcrouter = require('koa-mvcrouter');
-
-mvcrouter.init(router, module);
 
 //index controller中建议只写此action
 mvcrouter.viewGET('/', function (ctx) {
@@ -20,4 +17,4 @@ mvcrouter.viewGET('/test', function (ctx) {
   };
 });
 
-module.exports = router
+module.exports = mvcrouter;

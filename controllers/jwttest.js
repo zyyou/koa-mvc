@@ -1,12 +1,9 @@
 'use strict';
-const router = require('koa-router')();
+
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
+const bcklib = require('bcklib');
 const mvcrouter = require('koa-mvcrouter');
-
-const message = require('../lib/message');
-
-mvcrouter.init(router, module);
 
 //模拟登陆
 mvcrouter.jsonPOST('/login', function (ctx) {
@@ -25,7 +22,7 @@ mvcrouter.jsonPOST('/login', function (ctx) {
 
     ctx.res.setHeader('auth_token', token);
 
-    return message(false, 'ok');
+    return bcklib.retMsg(false, 'ok');
 });
 
 //测试GET响应JSON
@@ -41,4 +38,4 @@ mvcrouter.jsonPOST('/getjson', function (ctx) {
 
 
 
-module.exports = router;
+module.exports = mvcrouter;
