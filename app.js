@@ -11,19 +11,18 @@ const userAgent = require('koa-useragent');
 const koajwt = require('koa-jwt');
 const escapeHtml = require('escape-html');
 
-const hylog = require('./lib/log')('app');
-const controller = require('./lib/controller');
-const message = require('./lib/message');
-const jwtRefresh = require('./lib/middlewares/jwt-refresh');
-const routeconfig = require('./routes.js');
+const bcklib = require('bcklib');
+const mvcrouter = require('koa-mvcrouter');
 
-const appConfig = require('./config/appconfig');
+const jwtRefresh = require('./lib/middlewares/jwt-refresh');
+
+const appConfig = bcklib.loadConfig('appconfig.js');
 
 
 // 全局异常捕获
 app.on('error', (err, ctx) => {
   //console.error('server error', err);
-  hylog.fError('server error\r\n\terr:' + JSON.stringify(err) + '\r\n\tctx:' + JSON.stringify(ctx));
+  bcklib.log.fError('server error\r\n\terr:' + JSON.stringify(err) + '\r\n\tctx:' + JSON.stringify(ctx));
 });
 
 // error handler
@@ -93,6 +92,6 @@ app.use(json());
 app.use(require('koa-static')(__dirname + '/public'));
 
 // 注册路由
-app.use(routeconfig());
+app.use(mvcrouter.load());
 
 module.exports = app;

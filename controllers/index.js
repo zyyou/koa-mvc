@@ -1,18 +1,15 @@
 'use strict';
-const router = require('koa-router')();
-const controller = require('../lib/controller');
-
-controller.init(router, module);
+const mvcrouter = require('koa-mvcrouter');
 
 //index controller中建议只写此action
-controller.viewGET('/', function (ctx) {
+mvcrouter.viewGET('/', function (ctx) {
   return {
     title: 'Hello Koa 2! index/index' + ctx._appConfig.title
   };
 });
 
 //该action会被test/替代
-controller.viewGET('/test', function (ctx) {
+mvcrouter.viewGET('/test', function (ctx) {
   console.log('----- index/test被执行 ------')
   return {
     title: 'index  test',
@@ -20,4 +17,4 @@ controller.viewGET('/test', function (ctx) {
   };
 });
 
-module.exports = router
+module.exports = mvcrouter;

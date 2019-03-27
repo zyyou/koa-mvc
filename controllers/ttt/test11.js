@@ -1,24 +1,20 @@
 'use strict';
-const router = require('koa-router')();
-const controller = require('../../lib/controller');
+const mvcrouter = require('koa-mvcrouter');
 
-controller.init(router, module);
+mvcrouter.viewGET('/text', 'text11aaaaaa');
 
-
-controller.viewGET('/text', 'text11aaaaaa');
-
-controller.viewGET('/', async (ctx) => {
+mvcrouter.viewGET('/', async (ctx) => {
   return {
     title: 'ttt text11 controller',
     content: 'ttt text11 content'
   }
 });
 
-controller.viewGET('/test', async (ctx) => {
+mvcrouter.viewGET('/test', async (ctx) => {
   return {
     title: 'ttt text11 test controller',
     content: 'ttt text11 test content'
   }
 });
 
-module.exports = router
+module.exports = mvcrouter
