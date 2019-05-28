@@ -16,7 +16,7 @@ const mvcrouter = require('koa-mvcrouter');
 
 const jwtRefresh = require('./lib/middlewares/jwt-refresh');
 
-const appConfig = bcklib.loadConfig('appconfig.js');
+const appConfig = bcklib.loadConfig();
 
 
 // 全局异常捕获
