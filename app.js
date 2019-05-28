@@ -1,18 +1,17 @@
 const util = require('util');
+const path = require('path');
+const escapeHtml = require('escape-html');
+const bcklib = require('bcklib');
 const Koa = require('koa');
 const app = new Koa();
 const render = require('koa-ejs');
-const path = require('path');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const userAgent = require('koa-useragent');
-const koajwt = require('koa-jwt');
-const escapeHtml = require('escape-html');
-
-const bcklib = require('bcklib');
 const mvcrouter = require('koa-mvcrouter');
+const koajwt = require('koa-jwt');
 
 const jwtRefresh = require('./lib/middlewares/jwt-refresh');
 
