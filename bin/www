@@ -7,18 +7,13 @@
 const app = require('../app');
 const debug = require('debug')('demo:server');
 const http = require('http');
-const { config } = require('bcklib');
+const {
+  config
+} = require('bcklib');
 const fs = require('fs');
 
 let appInfo = config.load();
-
-/**
- * Get port from environment and store in Express.
- */
-
 let port = normalizePort(appInfo.port);
-console.log('监听端口', port);
-// app.set('port', port);
 
 /**
  * Create HTTP server.
@@ -39,7 +34,6 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
   let port = parseInt(val, 10);
 
@@ -59,15 +53,14 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  let bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  let bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -87,11 +80,11 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
   let addr = server.address();
-  let bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  let bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log(`应用已启动 http://127.0.0.1:${addr.port}`);
 }

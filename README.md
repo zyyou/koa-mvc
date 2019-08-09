@@ -4,11 +4,21 @@
 
 - 快速搭建koa mvc 工程
 
-## 启动
+# 使用脚手架构建工程
+```
+# 安装脚手架
+npm install koa-mvc-cli -g
+
+# 创建工程
+koamvc init <工程名>
+
+```
+
+## 使用源码构建工程
 
 ```shell
-git clone git@github.com:zyyou/koamvc.git
-cd koamvc
+git clone -b master https://github.com/zyyou/koa-mvc.git
+cd koa-mvc
 npm install
 npm run dev
 ```
