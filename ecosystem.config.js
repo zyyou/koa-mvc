@@ -123,7 +123,7 @@ module.exports = {
         //仓库分支
         ref: 'origin/dev121',
         //仓库地址
-        repo: 'git@192.168.100.222:heechain/fabric-api.git',
+        repo: 'git@192.168***.git',
         //应用部署到服务器的目录
         path: '/app/nodeapp/koamvc',
         //'post-setup': "npm install && ls -la",
