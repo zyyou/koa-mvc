@@ -93,12 +93,5 @@ mvcrouter.textGET('/req', async function (ctx) {
   return JSON.stringify(res);
 });
 
-//测试写日志
-mvcrouter.textGET('/log/:text', async function (ctx) {
-  bcklib.log.cDebug(ctx.params, Math.random(), 123, 'ddd');
-  bcklib.log.fDebug(ctx.params);
-  return 'ok';
-});
-
 
 module.exports = mvcrouter;
