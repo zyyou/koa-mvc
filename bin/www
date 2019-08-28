@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const moment = require('moment');
 //重写日志带时间
 let outWrite = process.stdout.write;
 process.stdout.write = function (str) {
