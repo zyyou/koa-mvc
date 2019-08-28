@@ -1,8 +1,17 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+//重写日志带时间
+let outWrite = process.stdout.write;
+process.stdout.write = function (str) {
+  arguments[0] = moment().format('YYMMDD HH:mm:ss ') + arguments[0];
+  outWrite.apply(this, arguments);
+};
+
+let errWrite = process.stderr.write;
+process.stderr.write = function (str) {
+  arguments[0] = moment().format('YYMMDD HH:mm:ss ') + arguments[0];
+  errWrite.apply(this, arguments);
+};
 
 const app = require('../app');
 const debug = require('debug')('demo:server');

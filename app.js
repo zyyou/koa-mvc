@@ -20,8 +20,7 @@ const appConfig = bcklib.loadConfig();
 
 // 全局异常捕获
 app.on('error', (err, ctx) => {
-  //console.error('server error', err);
-  bcklib.log.fError('server error\r\n\terr:' + JSON.stringify(err) + '\r\n\tctx:' + JSON.stringify(ctx));
+  console.error('server error', err);
 });
 
 // error handler
@@ -55,7 +54,8 @@ app.use(koajwt({
   method: [],
   ext: ['.ico', '.css', '.js', '.png', '.jpg'],
   path: ['/',
-    /\/index/, /\/test/, /\/ttt/, /\/jwttest\/login/]
+    /\/index/, /\/test/, /\/ttt/, /\/jwttest\/login/
+  ]
 }));
 
 app.use(jwtRefresh);
