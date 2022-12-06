@@ -15,7 +15,7 @@
     "glob": "^7.1.4",
     "https-sync": "^1.1.1",
     "koa": "^2.7.0",
-    "koa-bodyparser": "^3.2.0",
+    "koa-bodyparser": "^4.3.0",
     "koa-convert": "^1.2.0",
     "koa-ejs": "^4.2.0",
     "koa-json": "^2.0.2",
